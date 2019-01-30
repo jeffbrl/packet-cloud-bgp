@@ -1,7 +1,6 @@
 
 resource "packet_reserved_ip_block" "elastic_ip" {
   project_id = "${var.packet_project_id}"
-  facility   = "${var.packet_facility}"
   quantity   = 1
 }
 
