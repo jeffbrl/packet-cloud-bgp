@@ -1,6 +1,4 @@
 #!/bin/bash
 
-sleep 30
 apt-get -y update
-sleep 30
 apt-get -y install bird
