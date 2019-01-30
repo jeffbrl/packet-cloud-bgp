@@ -32,7 +32,7 @@ data "template_file" "configure_bird" {
   }
 }
 
-resource "packet_ssh_key" "key1" {
+resource "packet_ssh_key" "ssh-key" {
   name       = "mykey"
   public_key = "${file("mykey.pub")}"
 }
