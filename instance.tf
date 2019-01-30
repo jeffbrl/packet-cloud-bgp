@@ -4,7 +4,7 @@ provider "packet" {
 
 resource "packet_reserved_ip_block" "elastic_ip" {
   project_id = "${var.packet_project_id}"
-  facility   = "ewr1"
+  facility   = "${var.packet_facility}"
   quantity   = 1
 }
 
@@ -41,7 +41,7 @@ resource "packet_ssh_key" "ssh-key" {
 resource "packet_device" "anycast" {
   hostname         = "tfserver"
   plan             = "t1.small.x86"
-  facility         = "ewr1"
+  facility         = "${var.packet_facility}"
   operating_system = "ubuntu_18_04"
   billing_cycle    = "hourly"
   project_id       = "${var.packet_project_id}"
