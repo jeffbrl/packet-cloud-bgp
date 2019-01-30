@@ -1,0 +1,5 @@
+#!/bin/bash
+
+apt-get -y update
+apt-get -y install bird
+mv /etc/bird/bird.conf /etc/bird/bird.conf.original
