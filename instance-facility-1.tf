@@ -1,17 +1,28 @@
-provider "packet" {
-  auth_token = "${var.packet_auth_token}"
+
+resource "packet_ip_attachment" "attach_ip-1" {
+  device_id     = "${packet_device.host-1.id}"
+  cidr_notation = "${cidrhost(packet_reserved_ip_block.elastic_ip-1.cidr_notation,0)}/32"
 }
 
-resource "packet_ssh_key" "ssh-key" {
-  name       = "mykey"
-  public_key = "${file("mykey.pub")}"
+resource "packet_reserved_ip_block" "elastic_ip-1" {
+  project_id = "${var.packet_project_id}"
+  quantity   = 1
+  facility   = "${var.packet_facility1}"
 }
 
-# Create a device
-resource "packet_device" "anycast" {
-  hostname         = "tfserver"
+data "template_file" "configure_network-1" {
+  template = "${file("templates/configure_network.tpl")}"
+
+  vars = {
+    elastic_ip = "${cidrhost(packet_reserved_ip_block.elastic_ip-1.cidr_notation,0)}"
+  }
+}
+
+# Create a device at the first facility
+resource "packet_device" "host-1" {
+  hostname         = "${var.packet_facility1}"
   plan             = "t1.small.x86"
-  facility         = "${var.packet_facility}"
+  facility         = "${var.packet_facility1}"
   operating_system = "ubuntu_18_04"
   billing_cycle    = "hourly"
   project_id       = "${var.packet_project_id}"
@@ -28,7 +39,7 @@ resource "packet_device" "anycast" {
   }
 
   provisioner "file" {
-    content     = "${data.template_file.configure_network.rendered}"
+    content     = "${data.template_file.configure_network-1.rendered}"
     destination = "/tmp/configure_network.sh"
   }
 
@@ -47,9 +58,4 @@ resource "packet_device" "anycast" {
       "/tmp/configure_bird.sh",
     ]
   }
-}
-
-resource "packet_ip_attachment" "attach_ip" {
-  device_id     = "${packet_device.anycast.id}"
-  cidr_notation = "${cidrhost(packet_reserved_ip_block.elastic_ip.cidr_notation,0)}/32"
 }
