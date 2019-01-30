@@ -39,8 +39,6 @@ resource "packet_device" "anycast" {
 
   provisioner "remote-exec" {
     inline = [
-      "apt-get -y update",
-      "apt-get -y install bird",
       "chmod +x /tmp/configure_network.sh",
       "/tmp/configure_network.sh",
       "chmod +x /tmp/configure_bird.sh",
