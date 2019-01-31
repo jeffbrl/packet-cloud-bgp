@@ -6,6 +6,11 @@ variable "bgp_md5" {
   default = "passWord123"
 }
 
-variable "packet_facility" {
+# spin up hosts across two different facilities to test load balancing
+variable "packet_facility1" {
   default = "ewr1"
+}
+
+variable "packet_facility2" {
+  default = "dfw2"
 }
