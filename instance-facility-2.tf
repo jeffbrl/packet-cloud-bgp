@@ -1,9 +1,4 @@
 
-resource "packet_ip_attachment" "attach_ip02" {
-  device_id     = "${packet_device.host-2.id}"
-  cidr_notation = "${cidrhost(packet_reserved_ip_block.elastic_ip-2.cidr_notation,0)}/32"
-}
-
 resource "packet_reserved_ip_block" "elastic_ip-2" {
   project_id = "${var.packet_project_id}"
   quantity   = 1
