@@ -7,10 +7,10 @@ variable "bgp_md5" {
 }
 
 # spin up hosts across two different facilities to test load balancing
-variable "packet_facility1" {
+variable "packet_facility" {
   default = "ewr1"
 }
 
-variable "packet_facility2" {
-  default = "sjc1"
+variable "host-count" {
+  default = "2"
 }
