@@ -1,5 +1,5 @@
 output "Server IPs" {
-  value = "${packet_device.host.*.access_public_ipv4}"
+  value = "${packet_device.hosts.*.access_public_ipv4}"
 }
 
 output "Elastic IP" {
