@@ -1,16 +1,17 @@
 #!/bin/bash
 
 json=$(curl https://metadata.packet.net/metadata)
-router=$(echo $json | jq -r ".network.addresses[] | select(.public == false) | .address")
+private_address=$(echo $json | jq -r ".network.addresses[] | select(.public == false) | .address")
 gateway=$(echo $json | jq -r ".network.addresses[] | select(.public == false) | .gateway")
 
 apt-get install -y bird
+mv /etc/bird/bird.conf  /etc/bird/bird.conf.orig
 
 cat << EOF >> /etc/bird/bird.conf
 filter packet_bgp {
-    if net = ${floating_ip}/${floating_cidr} then accept;
+    if net = ${cidr_notation} then accept;
 }
-router id $private_ipv4;
+router id $private_address;
 protocol direct {
     interface "lo";
 }
@@ -26,7 +27,7 @@ protocol device {
 protocol bgp {
     export filter packet_bgp;
     local as 65000;
-    neighbor $router as 65530;
+    neighbor $gateway as 65530;
     password "${bgp_password}";
 }
 EOF
