@@ -34,6 +34,8 @@ Steps
 1. Populate vars.tf with your API token and project ID or use environment variables TF_VAR_packet_project_id 
 and TF_VAR_packet_auth_token
 2. Generate an SSH key named mykey using ssh-keygen -f mykey
-3. terraform init
-4. terraform plan
-5. terraform apply
+3. Copy terraform.tfvars.sample to terraform.tfvars and edit the bgp_md5 value to a random password
+4. Set the same bgp_md5 password into your Packet Project 
+5. terraform init
+6. terraform plan
+7. terraform apply
