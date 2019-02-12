@@ -39,3 +39,4 @@ and TF_VAR_packet_auth_token
 5. terraform init
 6. terraform plan
 7. terraform apply
+8. Test that request go across all servers with curl <elastic_ip>
