@@ -1,6 +1,8 @@
 
 resource "null_resource" "apache" {
 
+    depends_on = ["null_resource.configure_bird"]
+
     count = "${var.host-count}"
 
     connection {
