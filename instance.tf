@@ -12,6 +12,9 @@ resource "packet_reserved_ip_block" "elastic_ip" {
 
 # Create a device at the first facility
 resource "packet_device" "hosts" {
+
+  depends_on       = ["packet_ssh_key.ssh-key"]
+
   hostname         = "${format("%s-%02d", var.packet_facility, count.index)}"
 
   plan             = "t1.small.x86"
