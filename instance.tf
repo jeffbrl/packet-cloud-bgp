@@ -15,7 +15,7 @@ resource "packet_device" "hosts" {
   #  hostname = "${format("%s-%02d", ${var.packet_facilities_global_ipv4[count.index]}, 1)}"
   hostname         = "test"
   plan             = "t1.small.x86"
-  facilities       = ["${var.ewr1_facility}", "${var.sjc1_facility}"]
+  facilities       = [ "${var.sites[count.index]}" ]
   operating_system = "ubuntu_18_04"
   billing_cycle    = "hourly"
   project_id       = "${var.packet_project_id}"
