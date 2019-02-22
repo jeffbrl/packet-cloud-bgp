@@ -13,7 +13,7 @@ data "template_file" "enable_bgp" {
 
 resource "null_resource" "configure_bird" {
 
-    count = "${var.host-count}"
+    count = "${length(var.sites)}"
 
     triggers = {
         template = "${data.template_file.enable_bgp.rendered}"
