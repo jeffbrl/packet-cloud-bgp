@@ -1,4 +1,3 @@
-
 resource "packet_ssh_key" "ssh-key" {
   name       = "mykey"
   public_key = "${file("mykey.pub")}"
@@ -6,23 +5,21 @@ resource "packet_ssh_key" "ssh-key" {
 
 resource "packet_reserved_ip_block" "elastic_ip" {
   project_id = "${var.packet_project_id}"
+  type       = "global_ipv4"
   quantity   = 1
-  facility   = "${var.packet_facility}"
 }
 
-# Create a device at the first facility
 resource "packet_device" "hosts" {
+  depends_on = ["packet_ssh_key.ssh-key"]
 
-  depends_on       = ["packet_ssh_key.ssh-key"]
-
-  hostname         = "${format("%s-%02d", var.packet_facility, count.index)}"
-
+  #  hostname = "${format("%s-%02d", ${var.packet_facilities_global_ipv4[count.index]}, 1)}"
+  hostname         = "test"
   plan             = "t1.small.x86"
-  facility         = "${var.packet_facility}"
+  facilities       = ["${var.ewr1_facility}", "${var.sjc1_facility}"]
   operating_system = "ubuntu_18_04"
   billing_cycle    = "hourly"
   project_id       = "${var.packet_project_id}"
-  count            = "${var.host-count}"
+  count            = 2
 
   connection {
     user        = "root"
