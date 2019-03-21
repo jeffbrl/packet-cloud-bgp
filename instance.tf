@@ -12,7 +12,7 @@ resource "packet_reserved_ip_block" "elastic_ip" {
 resource "packet_device" "hosts" {
   depends_on = ["packet_ssh_key.ssh-key"]
 
-  hostname = "${format("%s-%02d", var.sites[count.index], 1)}"
+  hostname = "${format("%s-%02d", var.sites[count.index], count.index)}"
   plan             = "t1.small.x86"
   facilities       = [ "${var.sites[count.index]}" ]
   operating_system = "ubuntu_18_04"
